@@ -1,4 +1,32 @@
 > **This README.md is a mirror for PyPI. Please visit https://github.com/hanxiao/bert-as-service/blob/master/README.md for the latest README.md.**
+
+<h2 align="center">Are you looking for X-as-service? Try <a href="https://github.com/jina-ai/jina">Jina</a>!</h2>
+<h4 align="center">where X can be albert, pytorch-transformer, vgg, resnet, videobert, or <b>ANY</b> deep learning representation model?</h4>
+<table>
+  <tr><a href="https://github.com/jina-ai/jina"><img src="https://github.com/jina-ai/jina/blob/master/.github/1500х667.gif?raw=true" alt="Jina banner" width="100%"></a></tr>
+  <tr>
+      <td width="30%">
+    <a href="https://github.com/jina-ai/jina/tree/master/docs/chapters/101">
+      <img src="https://github.com/jina-ai/jina/blob/master/docs/chapters/101/img/ILLUS12.png?raw=true" alt="Jina 101 Concept Illustration Book, Copyright by Jina AI Limited" title="Jina 101 Concept Illustration Book, Copyright by Jina AI Limited"/>
+    </a>
+    </td>
+    <td width="70%">
+<h3><a href="https://github.com/jina-ai/jina/tree/master/docs/chapters/101">► Jina 101: First Thing to Learn About Jina</a></h3>
+&nbsp;&nbsp;<a href="https://github.com/jina-ai/jina/tree/master/docs/chapters/101">English</a> •
+  <a href="https://github.com/jina-ai/jina/tree/master/docs/chapters/101/README.ja.md">日本語</a> •
+  <a href="https://github.com/jina-ai/jina/tree/master/docs/chapters/101/README.fr.md">français</a> •
+  <a href="https://github.com/jina-ai/jina/tree/master/docs/chapters/101/README.de.md">Deutsch</a> •
+  <a href="https://github.com/jina-ai/jina/tree/master/docs/chapters/101/README.ru.md">Русский язык</a> •
+  <a href="https://github.com/jina-ai/jina/tree/master/docs/chapters/101/README.zh.md">中文</a>
+<br>
+    <h3><a href="https://github.com/jina-ai/examples/tree/master/x-as-service">► From BERT-as-Service to X-as-Service</a></h3>
+Learn how to use Jina to extract feature vector using any deep learning representation	
+
+</td>
+  </tr>
+</table>
+
+
 <h1 align="center">bert-as-service</h1>
 
 <p align="center">Using BERT model as a sentence encoding service, i.e. mapping a variable-length sentence to a fixed-length vector.</p>
@@ -52,20 +80,6 @@
 <h6 align="center">Made by Han Xiao • :globe_with_meridians: <a href="https://hanxiao.github.io">https://hanxiao.github.io</a></h6>
 
 
-<center>
-<table>
-  <tr>
-  <td width="25%"><a href="https://github.com/gnes-ai/gnes">
-      <img src=".github/gnes-logo-tight.svg" alt="GNES is Generic Neural Elastic Search (logo made by Han Xiao)">
-      </a></td>
-  <td>
-  <b>✨Looking for X-as-service? Or more generic and cloud-native solution?</b>
-  <p><br>Checkout my new project <a href="https://github.com/gnes-ai/gnes">GNES</a>! GNES is Generic Neural Elastic Search, a cloud-native semantic search system based on deep neural network. GNES enables large-scale index and semantic search for text-to-text, image-to-image, video-to-video and any-to-any content form.</p>
-</td>
-  </tr>
-</table>
-</center>
-
 <h2 align="center">What is it</h2>
 
 **BERT** is a NLP model [developed by Google](https://github.com/google-research/bert) for pre-training language representations. It leverages an enormous amount of plain text data publicly available on the web and is trained in an unsupervised manner. Pre-training a BERT model is a fairly expensive yet one-time procedure for each language. Fortunately, Google released several pre-trained models where [you can download from here](https://github.com/google-research/bert#pre-trained-models).
@@ -84,6 +98,7 @@
 - :gem: **Reliable**: tested on multi-billion sentences; days of running without a break or OOM or any nasty exceptions.
 
 More features: [XLA & FP16 support](#speed-wrt--fp16-and--xla); mix GPU-CPU workloads; optimized graph; `tf.data` friendly; customized tokenizer; flexible pooling strategy; [build-in HTTP server](#using-bert-as-service-to-serve-http-requests-in-json) and dashboard; [async encoding](#asynchronous-encoding); [multicasting](#broadcasting-to-multiple-clients); etc.
+
 
 
 <h2 align="center">Install</h2>
@@ -639,10 +654,10 @@ This gives the current status of the server including number of requests, number
 Alternatively, one may simply expose an HTTP port when starting a server via:
 
 ```bash
-bert-serving-start -http_port 8001 -model_dir ...
+bert-serving-start -http_port 8081 -model_dir ...
 ```
 
-This will allow one to use javascript or `curl` to fetch the server status at port 8001.
+This will allow one to use javascript or `curl` to fetch the server status at port 8081.
 
 `plugin/dashboard/index.html` shows a simple dashboard based on Bootstrap and Vue.js.
 
@@ -948,15 +963,15 @@ The graph below illustrates the pairwise similarity of 3000 Chinese sentences ra
 
 ##### **Q:** I'm getting bad performance, what should I do?
 
-**A:** This often suggests that the pretrained BERT could not generate a descent representation of your downstream task. Thus, you can fine-tune the model on the downstream task and then use `bert-as-service` to serve the fine-tuned BERT. Note that, `bert-as-service` is just a feature extraction service based on BERT. Nothing stops you from using a fine-tuned BERT.
+**A:** This often suggests that the pretrained BERT could not generate a decent representation of your downstream task. Thus, you can fine-tune the model on the downstream task and then use `bert-as-service` to serve the fine-tuned BERT. Note that, `bert-as-service` is just a feature extraction service based on BERT. Nothing stops you from using a fine-tuned BERT.
 
 ##### **Q:** Can I run the server side on CPU-only machine?
 
-**A:** Yes, please run `bert-serving-start -cpu -max_batch_size 16`. Note that, CPU does not scale as good as GPU on large batches, therefore the `max_batch_size` on the server side needs to be smaller, e.g. 16 or 32.
+**A:** Yes, please run `bert-serving-start -cpu -max_batch_size 16`. Note that, CPUs do not scale as well as GPUs to large batches, therefore the `max_batch_size` on the server side needs to be smaller, e.g. 16 or 32.
 
 ##### **Q:** How can I choose `num_worker`?
 
-**A:** Generally, the number of workers should be less than or equal to the number of GPU/CPU you have. Otherwise, multiple workers will be allocated to one GPU/CPU, which may not scale well (and may cause out-of-memory on GPU).
+**A:** Generally, the number of workers should be less than or equal to the number of GPUs or CPUs that you have. Otherwise, multiple workers will be allocated to one GPU/CPU, which may not scale well (and may cause out-of-memory on GPU).
 
 ##### **Q:** Can I specify which GPU to use?
 
